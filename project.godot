@@ -8,15 +8,35 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Scenes/Player.gd"
+} ]
 _global_script_class_icons={
-
+"Player": ""
 }
 
 [application]
 
 config/name="Basic Project For Git"
+run/main_scene="res://Scenes/World-1.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+GameManager="*res://Scenes/GameManager.tscn"
+
+[display]
+
+window/size/width=320
+window/size/height=180
+window/size/resizable=false
+window/size/test_width=1280
+window/size/test_height=720
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
 
 [rendering]
 
