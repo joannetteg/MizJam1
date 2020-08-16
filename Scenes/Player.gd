@@ -19,6 +19,11 @@ var playerState = EXPLORE
 
 # References
 onready var playerMovementAnim = $AnimationPlayer
+onready var grassNodes = $"../Grass/"
+
+func _ready():
+	for grass in grassNodes.get_children():
+		grass.connect("trigger_battle", self, "trigger_battle")
 
 func _process(delta):
 	# Simple state machine running the different player states
@@ -64,10 +69,8 @@ func explore_state(delta):
 		# Dirty animation handling
 		if isWalkingLeft:
 			playerMovementAnim.play("idleLeft")
-			print("walk left is true")
 		else:
 			playerMovementAnim.play("idleRight")
-			print("walk left is false")
 	
 func battle_state(delta):
 	pass
@@ -81,3 +84,7 @@ func win_state(delta):
 func move():
 	# Apply the velocity to the movement
 	velocity = move_and_slide(velocity)
+
+func trigger_battle(value):
+	playerState = BATTLE
+	print("TRIGGERED " + str(value))
