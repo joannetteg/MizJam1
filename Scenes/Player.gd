@@ -17,9 +17,15 @@ enum {
 }
 var playerState = EXPLORE
 
+signal onExploreState
+signal onTalkState
+
 # References
 onready var playerMovementAnim = $AnimationPlayer
+onready var battleTransition = $Camera2D/BattleTransition/AnimationPlayer
+onready var gameCamera = $Camera2D/CamAnim
 onready var grassNodes = $"../Grass/"
+onready var battleCamera = $"../../BattleCam/"
 
 func _ready():
 	for grass in grassNodes.get_children():
@@ -29,10 +35,12 @@ func _process(delta):
 	# Simple state machine running the different player states
 	match playerState:
 		EXPLORE:
+			emit_signal("onExploreState")
 			explore_state(delta)
 		BATTLE:
 			battle_state(delta)
 		TALK:
+			emit_signal("onTalkState")
 			talk_state(delta)
 		WIN:
 			win_state(delta)
@@ -73,10 +81,14 @@ func explore_state(delta):
 			playerMovementAnim.play("idleRight")
 	
 func battle_state(delta):
-	pass
+	#Placeholder action to go out of battle
+	if Input.is_action_just_pressed("ui_accept"):
+		playerState = EXPLORE
+		battleTransition.play("FadeOut")
+		gameCamera.play("ZoomOut")
 	
 func talk_state(delta):
-	pass
+	print("IN MENU")
 	
 func win_state(delta):
 	pass
@@ -88,3 +100,21 @@ func move():
 func trigger_battle(value):
 	playerState = BATTLE
 	print("TRIGGERED " + str(value))
+	battleTransition.play("SlideIn")
+	gameCamera.play("ZoomIn")
+
+
+func _on_PlayerBattleUI_triggerTalkState():
+	playerState = TALK
+
+
+func _on_PlayerBattleUI_triggerExploreState():
+	playerState = EXPLORE
+
+
+func _on_GameManager_triggerTalk():
+	playerState = TALK
+
+
+func _on_GameManager_triggerExplore():
+	playerState = EXPLORE

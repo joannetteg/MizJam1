@@ -1,47 +1,1297 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/TallGrass.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Sprites/Sheets/colored_transparent.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Fonts/slkscr.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Assets/Sprites/UI/BarBlue.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Sprites/UI/BarFrame.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Sprites/UI/BarGreen.png" type="Texture" id=7]
+[ext_resource path="res://Scenes/PlayerBattleUI.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/PlayerStatUI.gd" type="Script" id=9]
+[ext_resource path="res://Scenes/GameManager.tscn" type="PackedScene" id=10]
 
-[node name="World-1" type="YSort"]
+[sub_resource type="StreamTexture" id=5]
+load_path = "res://.import/colored_transparent.png-2d12aa932c5a5998b38740b2f181848c.stex"
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 40, 38 )
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 64, 6 )
 
-[node name="Grass" type="YSort" parent="."]
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 6, 52 )
 
-[node name="TallGrass" parent="Grass" instance=ExtResource( 2 )]
-position = Vector2( 80, 48 )
+[sub_resource type="Animation" id=9]
+resource_name = "ZoomIn"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:zoom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 0.5, 2 ),
+"update": 0,
+"values": [ Vector2( 0.9, 0.9 ), Vector2( 0.2, 0.2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:current")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../../../BattleCam:current")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
-[node name="TallGrass2" parent="Grass" instance=ExtResource( 2 )]
-position = Vector2( 80, 64 )
+[sub_resource type="Animation" id=10]
+resource_name = "ZoomOut"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:zoom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 0.5, 2 ),
+"update": 0,
+"values": [ Vector2( 0.2, 0.2 ), Vector2( 0.9, 0.9 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:current")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../../../BattleCam:current")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
-[node name="TallGrass3" parent="Grass" instance=ExtResource( 2 )]
-position = Vector2( 96, 64 )
+[sub_resource type="Animation" id=11]
+resource_name = "ZoomedOut"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:zoom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 0.5 ),
+"update": 0,
+"values": [ Vector2( 0.9, 0.9 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:current")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../../../BattleCam:current")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
-[node name="TallGrass4" parent="Grass" instance=ExtResource( 2 )]
-position = Vector2( 96, 48 )
+[sub_resource type="Animation" id=8]
+resource_name = "breath"
+length = 8.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 6, 8 ),
+"transitions": PoolRealArray( 1, 2, 2, 1 ),
+"update": 0,
+"values": [ Vector2( 64, 64 ), Vector2( 64, 65 ), Vector2( 64, 63 ), Vector2( 64, 64 ) ]
+}
 
-[node name="TallGrass5" parent="Grass" instance=ExtResource( 2 )]
-position = Vector2( 192, 32 )
+[sub_resource type="Animation" id=3]
+resource_name = "FadeOut"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("BG:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 0.5 ),
+"update": 0,
+"values": [ Vector2( 80, 64 ), Vector2( 80, 64 ), Vector2( -169.658, -183.377 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BG:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../../../Grass:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../../../../PlayerBattleUI/FrameSprite:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.3, 0.4 ),
+"transitions": PoolRealArray( 2, 0.5 ),
+"update": 0,
+"values": [ Vector2( 10, 86 ), Vector2( -120, 86 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../../../../PlayerBattleUI/FrameSprite:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
-[node name="TallGrass6" parent="Grass" instance=ExtResource( 2 )]
-position = Vector2( 208, 32 )
+[sub_resource type="Animation" id=1]
+resource_name = "SlideIn"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("BG:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( -169.658, -183.377 ), Vector2( 80, 64 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BG:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../../../Grass:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../../../../PlayerBattleUI/FrameSprite:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.4, 0.8 ),
+"transitions": PoolRealArray( 0.5, 2 ),
+"update": 0,
+"values": [ Vector2( -120, 86 ), Vector2( 10, 86 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../../../../PlayerBattleUI/FrameSprite:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
 
-[node name="TallGrass7" parent="Grass" instance=ExtResource( 2 )]
-position = Vector2( 192, 48 )
+[sub_resource type="Animation" id=4]
+resource_name = "default"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("BG:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -169.658, -183.377 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BG:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../../../Grass:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../../../../PlayerBattleUI/FrameSprite:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 0.5 ),
+"update": 0,
+"values": [ Vector2( -120, 86 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../../../../PlayerBattleUI/FrameSprite:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
 
-[node name="TallGrass8" parent="Grass" instance=ExtResource( 2 )]
-position = Vector2( 208, 48 )
+[sub_resource type="StreamTexture" id=2]
+load_path = "res://.import/colored_transparent.png-2d12aa932c5a5998b38740b2f181848c.stex"
 
-[node name="TallGrass9" parent="Grass" instance=ExtResource( 2 )]
-position = Vector2( 208, 64 )
+[sub_resource type="Animation" id=13]
+resource_name = "SlideIn"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayerStatUI/FrameSprite2:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 0.5, 2 ),
+"update": 0,
+"values": [ Vector2( -72, 12 ), Vector2( 12, 12 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlayerStatUI/FrameSprite2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
 
-[node name="TallGrass10" parent="Grass" instance=ExtResource( 2 )]
-position = Vector2( 192, 64 )
+[sub_resource type="Animation" id=15]
+resource_name = "SlideOut"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayerStatUI/FrameSprite2:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlayerStatUI/FrameSprite2:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 0.5, 2 ),
+"update": 0,
+"values": [ Vector2( 12, 12 ), Vector2( -72, 12 ) ]
+}
 
-[node name="TallGrass11" parent="Grass" instance=ExtResource( 2 )]
-position = Vector2( 128, 128 )
+[sub_resource type="Animation" id=14]
+resource_name = "default"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayerStatUI/FrameSprite2:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlayerStatUI/FrameSprite2:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -72, 12 ) ]
+}
 
-[node name="TallGrass12" parent="Grass" instance=ExtResource( 2 )]
-position = Vector2( 144, 128 )
+[sub_resource type="DynamicFont" id=12]
+size = 8
+font_data = ExtResource( 4 )
+
+[sub_resource type="StreamTexture" id=26]
+load_path = "res://.import/colored_transparent.png-2d12aa932c5a5998b38740b2f181848c.stex"
+
+[sub_resource type="Animation" id=21]
+resource_name = "CHA"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("FrameSprite2/Selector:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 16, 58 ) ]
+}
+
+[sub_resource type="Animation" id=22]
+resource_name = "CON"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("FrameSprite2/Selector:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 16, 48 ) ]
+}
+
+[sub_resource type="Animation" id=23]
+resource_name = "MGC"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("FrameSprite2/Selector:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 16, 28 ) ]
+}
+
+[sub_resource type="Animation" id=24]
+resource_name = "PWR"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("FrameSprite2/Selector:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 16, 18 ) ]
+}
+
+[sub_resource type="Animation" id=25]
+resource_name = "WIS"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("FrameSprite2/Selector:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 16, 38 ) ]
+}
+
+[sub_resource type="Animation" id=27]
+resource_name = "PTSAvailable"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("FrameSprite2/Points:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("FrameSprite2/Selector:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=28]
+resource_name = "default"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("FrameSprite2/Points:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("FrameSprite2/Selector:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="DynamicFont" id=29]
+size = 8
+font_data = ExtResource( 4 )
+
+[sub_resource type="Animation" id=30]
+resource_name = "default"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("QuitMenu:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=31]
+resource_name = "in"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("QuitMenu:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=32]
+resource_name = "out"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("QuitMenu:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="World-1" type="Node2D"]
+
+[node name="Ground" type="Node2D" parent="."]
+
+[node name="Sprites" type="Node2D" parent="Ground"]
+
+[node name="TopLeft" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 11, 10 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 271, 220, 16, 16 )
+
+[node name="Top" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 27, 10 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 289, 220, 16, 16 )
+
+[node name="Top2" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 42, 10 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 289, 220, 16, 16 )
+
+[node name="Top3" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 57, 10 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 289, 220, 16, 16 )
+
+[node name="Top4" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 72, 10 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 289, 220, 16, 16 )
+
+[node name="Top5" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 87, 10 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 289, 220, 16, 16 )
+
+[node name="Top6" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 102, 10 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 289, 220, 16, 16 )
+
+[node name="TopRight" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 118, 10 )
+texture = SubResource( 5 )
+region_enabled = true
+region_rect = Rect2( 307, 220, 16, 16 )
+
+[node name="BotLeft" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 11, 117 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 271, 256, 16, 16 )
+
+[node name="Bot" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 27, 117 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 289, 256, 16, 16 )
+
+[node name="Bot2" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 42, 117 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 289, 256, 16, 16 )
+
+[node name="Bot3" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 57, 117 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 289, 256, 16, 16 )
+
+[node name="Bot4" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 72, 117 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 289, 256, 16, 16 )
+
+[node name="Bot5" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 87, 117 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 289, 256, 16, 16 )
+
+[node name="Bot6" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 102, 117 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 289, 256, 16, 16 )
+
+[node name="BotRight" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 118, 117 )
+texture = SubResource( 5 )
+region_enabled = true
+region_rect = Rect2( 307, 256, 16, 16 )
+
+[node name="Left" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 11, 101 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 271, 238, 16, 16 )
+
+[node name="Left2" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 11, 86 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 271, 238, 16, 16 )
+
+[node name="Left3" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 11, 71 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 271, 238, 16, 16 )
+
+[node name="Left4" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 11, 56 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 271, 238, 16, 16 )
+
+[node name="Left5" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 11, 41 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 271, 238, 16, 16 )
+
+[node name="Left6" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 11, 26 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 271, 238, 16, 16 )
+
+[node name="Right" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 118, 101 )
+texture = SubResource( 5 )
+region_enabled = true
+region_rect = Rect2( 307, 238, 16, 16 )
+
+[node name="Right2" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 118, 86 )
+texture = SubResource( 5 )
+region_enabled = true
+region_rect = Rect2( 307, 238, 16, 16 )
+
+[node name="Right3" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 118, 71 )
+texture = SubResource( 5 )
+region_enabled = true
+region_rect = Rect2( 307, 238, 16, 16 )
+
+[node name="Right4" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 118, 56 )
+texture = SubResource( 5 )
+region_enabled = true
+region_rect = Rect2( 307, 238, 16, 16 )
+
+[node name="Right5" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 118, 41 )
+texture = SubResource( 5 )
+region_enabled = true
+region_rect = Rect2( 307, 238, 16, 16 )
+
+[node name="Right6" type="Sprite" parent="Ground/Sprites"]
+position = Vector2( 118, 26 )
+texture = SubResource( 5 )
+region_enabled = true
+region_rect = Rect2( 307, 238, 16, 16 )
+
+[node name="Collisions" type="Node2D" parent="Ground"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Ground/Collisions"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/Collisions/StaticBody2D"]
+position = Vector2( 64, 6 )
+shape = SubResource( 6 )
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Ground/Collisions"]
+position = Vector2( 0, 117 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/Collisions/StaticBody2D2"]
+position = Vector2( 64, 5 )
+shape = SubResource( 6 )
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Ground/Collisions"]
+position = Vector2( -59, 58 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/Collisions/StaticBody2D3"]
+position = Vector2( 65, 6 )
+shape = SubResource( 7 )
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Ground/Collisions"]
+position = Vector2( 57, 58 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/Collisions/StaticBody2D4"]
+position = Vector2( 65, 6 )
+shape = SubResource( 7 )
+
+[node name="BattleCam" type="Camera2D" parent="."]
+position = Vector2( 64, 64 )
+zoom = Vector2( 0.9, 0.9 )
+
+[node name="YSort" type="YSort" parent="."]
+
+[node name="Player" parent="YSort" instance=ExtResource( 1 )]
+position = Vector2( 64, 64 )
+
+[node name="Camera2D" type="Camera2D" parent="YSort/Player"]
+current = true
+zoom = Vector2( 0.9, 0.9 )
+
+[node name="CamAnim" type="AnimationPlayer" parent="YSort/Player/Camera2D"]
+autoplay = "ZoomedOut"
+anims/ZoomIn = SubResource( 9 )
+anims/ZoomOut = SubResource( 10 )
+anims/ZoomedOut = SubResource( 11 )
+anims/breath = SubResource( 8 )
+
+[node name="BattleTransition" type="Node2D" parent="YSort/Player/Camera2D"]
+position = Vector2( -64, -64.5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="YSort/Player/Camera2D/BattleTransition"]
+autoplay = "default"
+anims/FadeOut = SubResource( 3 )
+anims/SlideIn = SubResource( 1 )
+anims/default = SubResource( 4 )
+
+[node name="BG" type="Sprite" parent="YSort/Player/Camera2D/BattleTransition"]
+modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color( 0.0980392, 0.0862745, 0.0862745, 1 )
+position = Vector2( -169.658, -183.377 )
+rotation = 0.785398
+scale = Vector2( 30, 30 )
+texture = SubResource( 2 )
+region_enabled = true
+region_rect = Rect2( 189, 21, 10, 10 )
+
+[node name="Slash" type="Sprite" parent="YSort/Player/Camera2D/BattleTransition/BG"]
+position = Vector2( 5.46912, 0.299767 )
+rotation = -0.785398
+scale = Vector2( 0.15, 0.15 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 442, 187, 16, 16 )
+
+[node name="Slash2" type="Sprite" parent="YSort/Player/Camera2D/BattleTransition/BG"]
+position = Vector2( 4.43203, 0.299767 )
+rotation = -0.785398
+scale = Vector2( 0.15, 0.15 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 442, 187, 16, 16 )
+
+[node name="StatsUI" type="AnimationPlayer" parent="YSort/Player"]
+autoplay = "default"
+anims/SlideIn = SubResource( 13 )
+anims/SlideOut = SubResource( 15 )
+anims/default = SubResource( 14 )
+
+[node name="PlayerStatUI" type="Node2D" parent="YSort/Player"]
+position = Vector2( -64, -64 )
+script = ExtResource( 9 )
+
+[node name="FrameSprite2" type="NinePatchRect" parent="YSort/Player/PlayerStatUI"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -72.0
+margin_top = 12.0
+margin_right = -18.0
+margin_bottom = 81.0
+texture = ExtResource( 3 )
+region_rect = Rect2( 460, 256, 14, 14 )
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Power" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2"]
+margin_left = 7.0
+margin_top = 14.0
+margin_right = 26.0
+margin_bottom = 23.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "PWR"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PowerDigit" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2/Power"]
+margin_left = 27.0
+margin_right = 45.0
+margin_bottom = 9.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "50"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Magic" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2"]
+margin_left = 7.0
+margin_top = 24.0
+margin_right = 26.0
+margin_bottom = 33.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "MGC"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MagicDigit" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2/Magic"]
+margin_left = 27.0
+margin_right = 45.0
+margin_bottom = 9.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "50"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Wisdom" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2"]
+margin_left = 7.0
+margin_top = 34.0
+margin_right = 24.0
+margin_bottom = 43.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "WIS"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WisdomDigit" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2/Wisdom"]
+margin_left = 27.0
+margin_right = 45.0
+margin_bottom = 9.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "50"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Constitution" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2"]
+margin_left = 7.0
+margin_top = 44.0
+margin_right = 26.0
+margin_bottom = 53.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "CON"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConstitutionDigit" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2/Constitution"]
+margin_left = 27.0
+margin_right = 45.0
+margin_bottom = 9.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "50"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Charisma" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2"]
+margin_left = 7.0
+margin_top = 54.0
+margin_right = 25.0
+margin_bottom = 63.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "CHA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharismaDigit" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2/Charisma"]
+margin_left = 27.0
+margin_right = 45.0
+margin_bottom = 9.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "50"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Level" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 30.0
+margin_bottom = 13.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Level"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LVLDigit" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2/Level"]
+margin_left = 27.0
+margin_right = 45.0
+margin_bottom = 9.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Selector" type="Node2D" parent="YSort/Player/PlayerStatUI/FrameSprite2"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 16, 18 )
+
+[node name="Left" type="Sprite" parent="YSort/Player/PlayerStatUI/FrameSprite2/Selector"]
+modulate = Color( 0.113725, 0.101961, 0.101961, 1 )
+position = Vector2( -11, 0 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 424, 238, 8, 16 )
+
+[node name="Right" type="Sprite" parent="YSort/Player/PlayerStatUI/FrameSprite2/Selector"]
+modulate = Color( 0.113725, 0.101961, 0.101961, 1 )
+position = Vector2( 11, 0 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 434, 238, 8, 16 )
+
+[node name="Points" type="Sprite" parent="YSort/Player/PlayerStatUI/FrameSprite2"]
+modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 53, 2 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 595, 238, 16, 16 )
+
+[node name="Fill" type="Sprite" parent="YSort/Player/PlayerStatUI/FrameSprite2/Points"]
+self_modulate = Color( 1, 0, 0, 1 )
+position = Vector2( -9.53674e-07, -9.53674e-07 )
+texture = SubResource( 26 )
+region_enabled = true
+region_rect = Rect2( 667, 259, 8, 8 )
+
+[node name="AvalaiblePTS" type="Label" parent="YSort/Player/PlayerStatUI/FrameSprite2/Points"]
+margin_left = -6.0
+margin_top = -4.0
+margin_right = 6.0
+margin_bottom = 5.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "00"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CursorAnim" type="AnimationPlayer" parent="YSort/Player/PlayerStatUI"]
+autoplay = "PWR"
+anims/CHA = SubResource( 21 )
+anims/CON = SubResource( 22 )
+anims/MGC = SubResource( 23 )
+anims/PWR = SubResource( 24 )
+anims/WIS = SubResource( 25 )
+
+[node name="PTSAnim" type="AnimationPlayer" parent="YSort/Player/PlayerStatUI"]
+autoplay = "default"
+anims/PTSAvailable = SubResource( 27 )
+anims/default = SubResource( 28 )
+
+[node name="GameManager" parent="YSort/Player" instance=ExtResource( 10 )]
+position = Vector2( -64, -64 )
+
+[node name="QuitMenu" type="NinePatchRect" parent="YSort/Player/GameManager"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 28.0
+margin_top = 35.0
+margin_right = 99.0
+margin_bottom = 91.0
+texture = ExtResource( 3 )
+region_rect = Rect2( 460, 256, 14, 14 )
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Level" type="Label" parent="YSort/Player/GameManager/QuitMenu"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 67.0
+margin_bottom = 53.0
+custom_fonts/font = SubResource( 29 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_constants/line_spacing = -1
+text = "Do you want to quit? all progress will be lost!"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LVLDigit" type="Label" parent="YSort/Player/GameManager/QuitMenu/Level"]
+margin_left = 11.0
+margin_top = 38.0
+margin_right = 52.0
+margin_bottom = 47.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "[Y] / [N]"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QuitMenuAnim" type="AnimationPlayer" parent="YSort/Player/GameManager"]
+autoplay = "default"
+anims/default = SubResource( 30 )
+anims/in = SubResource( 31 )
+anims/out = SubResource( 32 )
+
+[node name="Grass" type="Node2D" parent="YSort"]
+
+[node name="TallGrass" parent="YSort/Grass" instance=ExtResource( 2 )]
+position = Vector2( 20, 92 )
+
+[node name="TallGrass2" parent="YSort/Grass" instance=ExtResource( 2 )]
+position = Vector2( 20, 108 )
+
+[node name="TallGrass3" parent="YSort/Grass" instance=ExtResource( 2 )]
+position = Vector2( 36, 108 )
+
+[node name="TallGrass4" parent="YSort/Grass" instance=ExtResource( 2 )]
+position = Vector2( 36, 92 )
+
+[node name="TallGrass5" parent="YSort/Grass" instance=ExtResource( 2 )]
+position = Vector2( 93, 19 )
+
+[node name="TallGrass6" parent="YSort/Grass" instance=ExtResource( 2 )]
+position = Vector2( 109, 19 )
+
+[node name="TallGrass7" parent="YSort/Grass" instance=ExtResource( 2 )]
+position = Vector2( 93, 35 )
+
+[node name="TallGrass8" parent="YSort/Grass" instance=ExtResource( 2 )]
+position = Vector2( 109, 35 )
+
+[node name="TallGrass9" parent="YSort/Grass" instance=ExtResource( 2 )]
+position = Vector2( 109, 51 )
+
+[node name="TallGrass10" parent="YSort/Grass" instance=ExtResource( 2 )]
+position = Vector2( 93, 51 )
+
+[node name="TallGrass11" parent="YSort/Grass" instance=ExtResource( 2 )]
+position = Vector2( 52, 108 )
+
+[node name="TallGrass12" parent="YSort/Grass" instance=ExtResource( 2 )]
+position = Vector2( 68, 108 )
+
+[node name="PlayerBattleUI" type="Node2D" parent="."]
+script = ExtResource( 8 )
+
+[node name="FrameSprite" type="NinePatchRect" parent="PlayerBattleUI"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -120.0
+margin_top = 86.0
+margin_right = -12.0
+margin_bottom = 118.0
+texture = ExtResource( 3 )
+region_rect = Rect2( 460, 256, 14, 14 )
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Level" type="Label" parent="PlayerBattleUI/FrameSprite"]
+margin_left = 4.0
+margin_top = 3.0
+margin_right = 21.0
+margin_bottom = 12.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Level"
+
+[node name="LVLDigit" type="Label" parent="PlayerBattleUI/FrameSprite/Level"]
+margin_left = 27.0
+margin_right = 45.0
+margin_bottom = 9.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LifeBar" type="TextureProgress" parent="PlayerBattleUI/FrameSprite"]
+margin_left = 4.0
+margin_top = 12.0
+margin_right = 40.0
+margin_bottom = 20.0
+value = 50.0
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HPDigit" type="Label" parent="PlayerBattleUI/FrameSprite/LifeBar"]
+margin_left = 37.0
+margin_top = -1.0
+margin_right = 60.0
+margin_bottom = 8.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "9999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ManaBar" type="TextureProgress" parent="PlayerBattleUI/FrameSprite"]
+margin_left = 4.0
+margin_top = 20.0
+margin_right = 40.0
+margin_bottom = 28.0
+value = 50.0
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ManaDigit" type="Label" parent="PlayerBattleUI/FrameSprite/ManaBar"]
+margin_left = 37.0
+margin_top = -1.0
+margin_right = 60.0
+margin_bottom = 8.0
+custom_fonts/font = SubResource( 12 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "9999"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="onExploreState" from="YSort/Player" to="YSort/Player/GameManager" method="_on_Player_onExploreState"]
+[connection signal="onExploreState" from="YSort/Player" to="YSort/Player/PlayerStatUI" method="_on_Player_onExploreState"]
+[connection signal="onTalkState" from="YSort/Player" to="YSort/Player/GameManager" method="_on_Player_onTalkState"]
+[connection signal="onTalkState" from="YSort/Player" to="YSort/Player/PlayerStatUI" method="_on_Player_onTalkState"]
+[connection signal="triggerExploreState" from="YSort/Player/PlayerStatUI" to="YSort/Player" method="_on_PlayerBattleUI_triggerExploreState"]
+[connection signal="triggerTalkState" from="YSort/Player/PlayerStatUI" to="YSort/Player" method="_on_PlayerBattleUI_triggerTalkState"]
+[connection signal="triggerExplore" from="YSort/Player/GameManager" to="YSort/Player" method="_on_GameManager_triggerExplore"]
+[connection signal="triggerTalk" from="YSort/Player/GameManager" to="YSort/Player" method="_on_GameManager_triggerTalk"]
