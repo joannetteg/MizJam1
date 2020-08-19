@@ -220,10 +220,33 @@ tracks/4/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("../../../../Enemies:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.5, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 40, 26 ), Vector2( 40, 26 ), Vector2( 140, 26 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("../../../../Enemies:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "SlideIn"
-length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("BG:position")
 tracks/0/interp = 1
@@ -279,10 +302,34 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.4, 0.6 ),
+"times": PoolRealArray( 0, 0.3, 0.7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("../../../../Enemies:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.6, 1 ),
+"transitions": PoolRealArray( 0.5, 0.5, 2 ),
+"update": 0,
+"values": [ Vector2( 140, 26 ), Vector2( 140, 26 ), Vector2( 40, 26 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("../../../../Enemies:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -343,6 +390,30 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("../../../../Enemies:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 140, 26 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("../../../../Enemies:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -864,7 +935,6 @@ anims/SlideIn = SubResource( 1 )
 anims/default = SubResource( 4 )
 
 [node name="BG" type="Sprite" parent="YSort/Player/Camera2D/BattleTransition"]
-modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 0.0980392, 0.0862745, 0.0862745, 1 )
 position = Vector2( -169.658, -183.377 )
 rotation = 0.785398
@@ -1055,7 +1125,7 @@ __meta__ = {
 
 [node name="Selector" type="Node2D" parent="YSort/Player/PlayerStatUI/FrameSprite2"]
 modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 16, 18 )
+position = Vector2( 16, 58 )
 
 [node name="Left" type="Sprite" parent="YSort/Player/PlayerStatUI/FrameSprite2/Selector"]
 modulate = Color( 0.113725, 0.101961, 0.101961, 1 )
@@ -1164,6 +1234,7 @@ anims/in = SubResource( 31 )
 anims/out = SubResource( 32 )
 
 [node name="Grass" type="Node2D" parent="YSort"]
+visible = false
 
 [node name="TallGrass" parent="YSort/Grass" instance=ExtResource( 2 )]
 position = Vector2( 20, 92 )
@@ -1287,6 +1358,36 @@ text = "9999"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Enemies" type="Node2D" parent="."]
+position = Vector2( 140, 26 )
+
+[node name="Spawn1" type="Node2D" parent="Enemies"]
+position = Vector2( 24, 22 )
+
+[node name="Sprite1" type="Sprite" parent="Enemies/Spawn1"]
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 425, 34, 16, 16 )
+
+[node name="Spawn2" type="Node2D" parent="Enemies"]
+position = Vector2( 0, 16 )
+
+[node name="Sprite2" type="Sprite" parent="Enemies/Spawn2"]
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 510, 85, 16, 16 )
+
+[node name="Spawn3" type="Node2D" parent="Enemies"]
+position = Vector2( 48, 16 )
+
+[node name="Sprite3" type="Sprite" parent="Enemies/Spawn3"]
+position = Vector2( 9.53674e-07, -1.90735e-06 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 459, 102, 16, 16 )
+[connection signal="onBattleState" from="YSort/Player" to="YSort/Player/GameManager" method="_on_Player_onBattleState"]
+[connection signal="onBattleState" from="YSort/Player" to="YSort/Player/PlayerStatUI" method="_on_Player_onBattleState"]
 [connection signal="onExploreState" from="YSort/Player" to="YSort/Player/GameManager" method="_on_Player_onExploreState"]
 [connection signal="onExploreState" from="YSort/Player" to="YSort/Player/PlayerStatUI" method="_on_Player_onExploreState"]
 [connection signal="onTalkState" from="YSort/Player" to="YSort/Player/GameManager" method="_on_Player_onTalkState"]
