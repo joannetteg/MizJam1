@@ -19,6 +19,7 @@ var playerState = EXPLORE
 
 signal onExploreState
 signal onTalkState
+signal onBattleState
 
 # References
 onready var playerMovementAnim = $AnimationPlayer
@@ -38,6 +39,7 @@ func _process(delta):
 			emit_signal("onExploreState")
 			explore_state(delta)
 		BATTLE:
+			emit_signal("onBattleState")
 			battle_state(delta)
 		TALK:
 			emit_signal("onTalkState")

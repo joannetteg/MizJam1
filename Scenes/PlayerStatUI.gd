@@ -133,3 +133,6 @@ func _on_Player_onTalkState():
 
 func _on_Player_onExploreState():
 	canOpenStats = true
+
+func _on_Player_onBattleState():
+	canOpenStats = false

@@ -31,3 +31,6 @@ func _on_Player_onExploreState():
 
 func _on_Player_onTalkState():
 	canQuit = false
+
+func _on_Player_onBattleState():
+	canQuit = false
